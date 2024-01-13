@@ -1,4 +1,4 @@
-# owr-care-repo
-This repository is mainly for publishing official firmwares and describing apis of OWRCare devices
+# owcare-repo
+This repository is mainly for publishing official firmwares and describing apis of oware devices
 
 # 
