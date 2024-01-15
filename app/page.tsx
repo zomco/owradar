@@ -4,6 +4,13 @@ import Script from 'next/script'
 import * as React from 'react'
 import styles from './page.module.css'
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'esp-web-install-button': any;
+    }
+  }
+}
 
 export default function Home() {
   return (
@@ -15,7 +22,7 @@ export default function Home() {
           <li>Get firmware installed and connected in less than 3 minutes!</li>
         </ol>
         <div className={styles.connect}>
-          <esp-web-install-button manifest="https://firmware.esphome.io/esphome-web/manifest.json" />
+          <esp-web-install-button manifest="/manifest_owcare.json" />
         </div>
       </div>
       <div className="sm:absolute sm:bottom-0 w-full px-20 py-10 flex justify-between">
