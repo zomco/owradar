@@ -1,54 +1,309 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import Script from 'next/script'
-import * as React from 'react'
-import styles from './page.module.css'
+import {
+  Bird,
+  Book,
+  Bot,
+  Code2,
+  CornerDownLeft,
+  LifeBuoy,
+  Mic,
+  Paperclip,
+  Rabbit,
+  Settings,
+  Settings2,
+  Share,
+  SquareTerminal,
+  SquareUser,
+  Triangle,
+  Turtle,
+} from "lucide-react"
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'esp-web-install-button': any;
-    }
-  }
-}
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@/components/ui/tooltip"
+import InstallButton from "@/app/install-button";
 
-export default function Home() {
+export default function Dashboard() {
+
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center">
-      <div className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
-        <ol className={styles.steps}>
-          <li>Plug in your devices to a USB port. We will install firmware to it.</li>
-          <li id="coms">Hit &lsquo;Connect&rsquo; and select the correct COM port.</li>
-          <li>Get firmware installed and connected in less than 3 minutes!</li>
-        </ol>
-        <div className={styles.connect}>
-          <esp-web-install-button manifest="/manifest_owcare.json" />
+      <TooltipProvider>
+        <div className="grid h-screen w-full pl-[56px]">
+          <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
+            <div className="border-b p-2">
+              <Button variant="outline" size="icon" aria-label="Home">
+                <Triangle className="size-5 fill-foreground"/>
+              </Button>
+            </div>
+            <nav className="grid gap-1 p-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-lg bg-muted"
+                      aria-label="Install"
+                  >
+                    <SquareTerminal className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  Install
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-lg"
+                      aria-label="Models"
+                  >
+                    <Bot className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  Models
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-lg"
+                      aria-label="API"
+                  >
+                    <Code2 className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  API
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-lg"
+                      aria-label="Documentation"
+                  >
+                    <Book className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  Documentation
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-lg"
+                      aria-label="Settings"
+                  >
+                    <Settings2 className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  Settings
+                </TooltipContent>
+              </Tooltip>
+            </nav>
+            <nav className="mt-auto grid gap-1 p-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="mt-auto rounded-lg"
+                      aria-label="Help"
+                  >
+                    <LifeBuoy className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  Help
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      className="mt-auto rounded-lg"
+                      aria-label="Account"
+                  >
+                    <SquareUser className="size-5"/>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={5}>
+                  Account
+                </TooltipContent>
+              </Tooltip>
+            </nav>
+          </aside>
+          <div className="flex flex-col">
+            <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
+              <h1 className="text-xl font-semibold">Install</h1>
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden">
+                    <Settings className="size-4"/>
+                    <span className="sr-only">Settings</span>
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="max-h-[80vh]">
+                  <DrawerHeader>
+                    <DrawerTitle>Configuration</DrawerTitle>
+                    <DrawerDescription>
+                      Configure the settings for the model and messages.
+                    </DrawerDescription>
+                  </DrawerHeader>
+                  <form className="grid w-full items-start gap-6 overflow-auto p-4 pt-0">
+                    <fieldset className="grid gap-6 rounded-lg border p-4">
+                      <legend className="-ml-1 px-1 text-sm font-medium">
+                        Settings
+                      </legend>
+                      <div className="grid gap-3">
+                        <Label htmlFor="model">Model</Label>
+                        <Select>
+                          <SelectTrigger
+                              id="model"
+                              className="items-start [&_[data-description]]:hidden"
+                          >
+                            <SelectValue placeholder="Select a model"/>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="genesis">
+                              <div className="flex items-start gap-3 text-muted-foreground">
+                                <Rabbit className="size-5"/>
+                                <div className="grid gap-0.5">
+                                  <p>
+                                    Neural{" "}
+                                    <span className="font-medium text-foreground">
+                                  Genesis
+                                </span>
+                                  </p>
+                                  <p className="text-xs" data-description>
+                                    Our fastest model for general use cases.
+                                  </p>
+                                </div>
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="explorer">
+                              <div className="flex items-start gap-3 text-muted-foreground">
+                                <Bird className="size-5"/>
+                                <div className="grid gap-0.5">
+                                  <p>
+                                    Neural{" "}
+                                    <span className="font-medium text-foreground">
+                                  Explorer
+                                </span>
+                                  </p>
+                                  <p className="text-xs" data-description>
+                                    Performance and speed for efficiency.
+                                  </p>
+                                </div>
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="quantum">
+                              <div className="flex items-start gap-3 text-muted-foreground">
+                                <Turtle className="size-5"/>
+                                <div className="grid gap-0.5">
+                                  <p>
+                                    Neural{" "}
+                                    <span className="font-medium text-foreground">
+                                  Quantum
+                                </span>
+                                  </p>
+                                  <p className="text-xs" data-description>
+                                    The most powerful model for complex
+                                    computations.
+                                  </p>
+                                </div>
+                              </div>
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="temperature">Temperature</Label>
+                        <Input id="temperature" type="number" placeholder="0.4"/>
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="top-p">Top P</Label>
+                        <Input id="top-p" type="number" placeholder="0.7"/>
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="top-k">Top K</Label>
+                        <Input id="top-k" type="number" placeholder="0.0"/>
+                      </div>
+                    </fieldset>
+                    <fieldset className="grid gap-6 rounded-lg border p-4">
+                      <legend className="-ml-1 px-1 text-sm font-medium">
+                        Messages
+                      </legend>
+                      <div className="grid gap-3">
+                        <Label htmlFor="role">Role</Label>
+                        <Select defaultValue="system">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a role"/>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="system">System</SelectItem>
+                            <SelectItem value="user">User</SelectItem>
+                            <SelectItem value="assistant">Assistant</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="content">Content</Label>
+                        <Textarea id="content" placeholder="You are a..."/>
+                      </div>
+                    </fieldset>
+                  </form>
+                </DrawerContent>
+              </Drawer>
+              <Button
+                  variant="outline"
+                  size="sm"
+                  className="ml-auto gap-1.5 text-sm"
+              >
+                <Share className="size-3.5"/>
+                Share
+              </Button>
+            </header>
+            <main className="w-full h-full">
+              <div className="w-full h-full flex justify-center items-center">
+                <InstallButton />
+              </div>
+            </main>
+          </div>
         </div>
-      </div>
-      <div className="sm:absolute sm:bottom-0 w-full px-20 py-10 flex justify-between">
-        <Link href="https://owkor.com">
-          <Image
-            src="/owkor.svg"
-            alt="Owkor Logo"
-            width={24}
-            height={24}
-            priority
-          />
-        </Link>
-        <Link
-          href="https://github.com/zomco/owkor"
-          className="flex items-center space-x-2"
-        >
-          <Image
-            src="/github.svg"
-            alt="GitHub Logo"
-            width={24}
-            height={24}
-            priority
-          />
-        </Link>
-      </div>
-      <Script src="https://unpkg.com/esp-web-tools@9/dist/web/install-button.js?module" />
-    </main>
+      </TooltipProvider>
   )
 }

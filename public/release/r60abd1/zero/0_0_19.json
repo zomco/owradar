@@ -1,0 +1,15 @@
+{
+  "name": "OwRadar",
+  "version": "0.0.19",
+  "home_assistant_domain": "owradar",
+  "funding_url": "https://owradar.owkor.com/guides/supporters.html",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32C3",
+      "parts": [
+        { "path": "https://github.com/zomco/owradar-site/releases/download/0.0.19-a%2B4/merge-esp32c3-r60abd1-zero.bin", "offset": 0 }
+      ]
+    }
+  ]
+}

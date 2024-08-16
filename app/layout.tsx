@@ -2,8 +2,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 
 export const metadata = {
-  title: 'owkor',
-  description: 'owkor',
+  title: 'OwRadar',
+  description: 'OwRadar',
   manifest: 'site.webmanifest',
   icons: {
     icon: ['/favicon-32x32.png', '/favicon-16x16.png'],

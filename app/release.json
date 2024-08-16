@@ -1,0 +1,19 @@
+{
+  "date": "2024.08.15",
+  "radars": [{
+    "name": "r60abd1",
+    "models": [{
+      "name": "a4",
+      "versions": [{
+        "name": "0.0.19",
+        "value": "/release/r60abd1/a4/0_0_19.json"
+      }]
+    }, {
+      "name": "zero",
+      "versions": [{
+        "name": "0.0.19",
+        "value": "/release/r60abd1/zero/0_0_19.json"
+      }]
+    }]
+  }]
+}
