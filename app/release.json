@@ -1,18 +1,23 @@
 {
   "date": "2024.08.15",
-  "radars": [{
-    "name": "r60abd1",
-    "models": [{
-      "name": "a4",
-      "versions": [{
+  "values": [{
+    "name": "R60ABD1",
+    "desc": "https://www.micradar.cn/",
+    "values": [{
+      "name": "A4",
+      "desc": "https://owradar.owkor.com/",
+      "values": [{
         "name": "0.0.19",
-        "value": "/release/r60abd1/a4/0_0_19.json"
+        "desc": "0.0.19",
+        "values": ["/release/r60abd1/a4/0_0_19.json"]
       }]
     }, {
-      "name": "zero",
-      "versions": [{
+      "name": "ZERO",
+      "desc": "https://owradar.owkor.com/",
+      "values": [{
         "name": "0.0.19",
-        "value": "/release/r60abd1/zero/0_0_19.json"
+        "desc": "0.0.19",
+        "values": ["/release/r60abd1/zero/0_0_19.json"]
       }]
     }]
   }]

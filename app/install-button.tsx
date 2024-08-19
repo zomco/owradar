@@ -34,27 +34,45 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Bold, Italic, Underline } from "lucide-react"
 import Releases from './release.json';
 
+const radars: [ManiFestInfo] = Releases.values.map(radar => ({ name: radar.name, values: radar.values }));
 
 export default function InstallButton() {
+    const [versions, updateVersions] = useState<[ManiFestInfo]>([]);
+    const [models, updateModels] = useState<[ManiFestInfo]>([]);
     const [version, updateVersion] = useState<string>("");
     const [radar, updateRadar] = useState<string>("");
-    const [radars, updateRadars] = useState<[]>([])
     const [model, updateModel] = useState<string>("");
-    return <div>
+    const [manifest, updateManifest] = useState<string>("");
+
+    return <div className="md:w-1/4 w-full p-3">
         <Script
             type="module"
-            src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
+            // src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
+            src="/esp-web-tools/install-button.js?module"
         ></Script>
         <div className="mb-6">
-            <div>Welcome to the OwRadar web installer!</div>
-            <div>Plug in your ESP to a USB port. We will install OwRadar 0.15.0-b4 to it. </div>
-            <div>Hit &quot;Install&quot; and select the correct COM port. </div>
-            <div>Get OwRadar installed and connected in less than 3 minutes! </div>
+            <div>1. Welcome to the OwRadar web installer!</div>
+            <div>2. Choose your radar module {radar} and board model {model}.</div>
+            <div>3. Plug in your ESP to a USB port. We will install OwRadar {version} to it.</div>
+            <div>4. Hit &quot;Install&quot; and select the correct COM port.</div>
+            <div>5. Get OwRadar installed and connected in less than 3 minutes!</div>
         </div>
         <div className="mb-6">
-            <ToggleGroup variant="outline" size="lg" type="single" onValueChange={(value) => updateRadar(value)}>
+            <ToggleGroup
+                variant="outline"
+                size="lg"
+                type="single"
+                value={radar}
+                onValueChange={(value) => {
+                    updateRadar(value);
+                    updateModels(radars.find(radar => radar.name === value)?.values || []);
+                    updateModel("");
+                    updateVersions([]);
+                    updateVersion("");
+                    updateManifest("");
+                }}>
                 {
-                    Releases.radars.map((radar, index) => {
+                    radars.map((radar, index) => {
                         return <ToggleGroupItem
                             value={radar.name}
                             aria-label={radar.name}
@@ -67,93 +85,62 @@ export default function InstallButton() {
             </ToggleGroup>
         </div>
         <div className="mb-6">
-            <ToggleGroup variant="outline" size="lg" type="single">
-                <ToggleGroupItem value="zero" aria-label="Toggle Model Zero">
-                    Zero
-                </ToggleGroupItem>
-                <ToggleGroupItem value="a4" aria-label="Toggle Model A4">
-                    A4
-                </ToggleGroupItem>
+            <ToggleGroup
+                variant="outline"
+                size="lg"
+                type="single"
+                value={model}
+                onValueChange={(value) => {
+                    updateModel(value);
+                    updateVersions(models.find(model => model.name === value)?.values || []);
+                    updateVersion("");
+                    updateManifest("");
+                }}
+            >
+                {
+                    models.map((model, index) => {
+                        return <ToggleGroupItem
+                            value={model.name}
+                            aria-label={model.name}
+                            key={model.name}
+                        >
+                            {model.name}
+                        </ToggleGroupItem>
+                    })
+                }
             </ToggleGroup>
         </div>
         <div className="mb-6">
-            <Select>
+            <Select
+                disabled={versions.length === 0}
+                value={version}
+                onValueChange={(value) => {
+                    updateVersion(value);
+                    const file = versions.find(version => version.name === value)?.values[0] as string;
+                    updateManifest(file);
+                }}
+            >
                 <SelectTrigger
-                    id="model"
+                    id="version"
                     className="items-start [&_[data-description]]:hidden"
                 >
-                    <SelectValue placeholder="Select a model" />
+                    <SelectValue placeholder="Select a version" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="genesis">
-                        <div className="flex items-start gap-3 text-muted-foreground">
-                            <Rabbit className="size-5" />
-                            <div className="grid gap-0.5">
-                                <p>
-                                    Neural{" "}
-                                    <span className="font-medium text-foreground">
-                                  Genesis
-                                </span>
-                                </p>
-                                <p className="text-xs" data-description>
-                                    Our fastest model for general use cases.
-                                </p>
-                            </div>
-                        </div>
-                    </SelectItem>
-                    <SelectItem value="explorer">
-                        <div className="flex items-start gap-3 text-muted-foreground">
-                            <Bird className="size-5" />
-                            <div className="grid gap-0.5">
-                                <p>
-                                    Neural{" "}
-                                    <span className="font-medium text-foreground">
-                                  Explorer
-                                </span>
-                                </p>
-                                <p className="text-xs" data-description>
-                                    Performance and speed for efficiency.
-                                </p>
-                            </div>
-                        </div>
-                    </SelectItem>
-                    <SelectItem value="quantum">
-                        <div className="flex items-start gap-3 text-muted-foreground">
-                            <Turtle className="size-5" />
-                            <div className="grid gap-0.5">
-                                <p>
-                                    Neural{" "}
-                                    <span className="font-medium text-foreground">
-                                  Quantum
-                                </span>
-                                </p>
-                                <p className="text-xs" data-description>
-                                    The most powerful model for complex
-                                    computations.
-                                </p>
-                            </div>
-                        </div>
-                    </SelectItem>
+                    {
+                        versions.map((version, index) => {
+                            return <SelectItem
+                                value={version.name}
+                                key={version.name}
+                            >{version.name} </SelectItem>
+                        })
+                    }
                 </SelectContent>
             </Select>
         </div>
         <div>
-            <esp-web-install-button manifest="">
-                <Button slot="activate" className="w-full">Install</Button>
-                <Alert slot="unsupported" variant="destructive">
-                    <AlertCircle className="h-4 w-4"/>
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                        Browser does not work
-                    </AlertDescription>
-                </Alert>
-                <Alert slot="not-allowed" variant="destructive">
-                    <AlertCircle className="h-4 w-4"/>
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                        HTTPS not allowed
-                    </AlertDescription>
-                </Alert>
+            <esp-web-install-button manifest={manifest}>
+                <Button disabled={version === ""} slot="activate" className="w-full">Install</Button>
             </esp-web-install-button>
         </div>
     </div>
