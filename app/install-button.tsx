@@ -34,11 +34,11 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Bold, Italic, Underline } from "lucide-react"
 import Releases from './release.json';
 
-const radars: [ManiFestInfo] = Releases.values.map(radar => ({ name: radar.name, values: radar.values }));
+const radars: ManiFestInfo[] = Releases.values.map(radar => ({ name: radar.name, values: radar.values }));
 
 export default function InstallButton() {
-    const [versions, updateVersions] = useState<[ManiFestInfo]>([]);
-    const [models, updateModels] = useState<[ManiFestInfo]>([]);
+    const [versions, updateVersions] = useState<ManiFestInfo[]>([]);
+    const [models, updateModels] = useState<ManiFestInfo[]>([]);
     const [version, updateVersion] = useState<string>("");
     const [radar, updateRadar] = useState<string>("");
     const [model, updateModel] = useState<string>("");
