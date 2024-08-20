@@ -30,12 +30,25 @@ import {
     Triangle,
     Turtle,
 } from "lucide-react"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { Bold, Italic, Underline } from "lucide-react"
+import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group"
+import {Bold, Italic, Underline} from "lucide-react"
 import Releases from './release.json';
 
-const radars: ManiFestInfo[] = Releases.values.map(radar => ({ name: radar.name, values: radar.values }));
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            'esp-web-install-button': any;
+        }
+    }
+}
 
+const radars: ManiFestInfo[] = Releases.values.map(radar => ({
+    name: radar.name,
+    desc: radar.desc,
+    values: radar.values
+}));
+
+    
 export default function InstallButton() {
     const [versions, updateVersions] = useState<ManiFestInfo[]>([]);
     const [models, updateModels] = useState<ManiFestInfo[]>([]);
@@ -124,7 +137,7 @@ export default function InstallButton() {
                     id="version"
                     className="items-start [&_[data-description]]:hidden"
                 >
-                    <SelectValue placeholder="Select a version" />
+                    <SelectValue placeholder="Select a version"/>
                 </SelectTrigger>
                 <SelectContent>
                     {
